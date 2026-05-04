@@ -46,7 +46,7 @@ export class HeroComponent {
     {
       key: 'scifi',
       label: 'Ciencia Ficción',
-      title: 'Harry Potter y la Piedra Filosofal',
+      title: 'Harry Potter 1',
       description: 'Un niño huérfano maltratado por sus tíos, descubre a los 11 años que es mago.',
       duration: '2h 35m',
       rating: '8.8',
