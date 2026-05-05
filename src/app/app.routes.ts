@@ -5,7 +5,11 @@ import { HomePageComponent } from './features/home/pages/home-page/home-page.com
 export const routes: Routes = [
   {
     path: '',
+
+    // Contenedor principal
     component: LayoutShellComponent,
+
+    //Contenido del medio que cambia según la URL
     children: [
       {
         path: '',
