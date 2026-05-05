@@ -17,7 +17,12 @@
       </button>
     </div>
 
-    <div class="hero__body" [class.hero__body--hidden]="isAnimating">
+    <!-- ✅ Reemplazamos hero__body--hidden por Animate.css -->
+    <div class="hero__body animate__animated"
+         [class.animate__fadeInUp]="!isAnimating"
+         [class.animate__fadeOutDown]="isAnimating"
+         [class.animate__faster]="true">
+
       <span class="hero__eyebrow">— {{ activeGenre.label }}</span>
       <h1 class="hero__title">{{ activeGenre.title }}</h1>
       <p class="hero__description">{{ activeGenre.description }}</p>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeStyle, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -18,7 +18,8 @@ interface GenreData {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './hero.component.html',
-  styleUrl: './hero.component.css'
+  styleUrl: './hero.component.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class HeroComponent {
 

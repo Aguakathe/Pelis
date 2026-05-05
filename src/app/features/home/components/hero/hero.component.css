@@ -64,13 +64,7 @@
 
 .hero__body {
   margin-top: auto;
-  padding-bottom: 16px;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.hero__body--hidden {
-  opacity: 0;
-  transform: translateY(12px);
+  padding-bottom: 16px; 
 }
 
 .hero__eyebrow {
