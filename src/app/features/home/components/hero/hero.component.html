@@ -1,31 +1,33 @@
-<section 
+<section
   class="hero"
-  [class]="'hero--' + activeGenre.key"
-  [style.backgroundImage]="getBackgroundStyle(activeGenre.image)">
+  [style.backgroundImage]="getBackgroundStyle(activeMovie.image)"
+  (mouseenter)="onHover(true)"
+  (mouseleave)="onHover(false)">
 
   <div class="hero__overlay"></div>
 
+  <!-- Flecha izquierda -->
+  <button class="hero__arrow hero__arrow--prev" (click)="prev(); resetAutoplay()">
+    <span class="arrow-icon">
+      <span class="arrow-line"></span>
+      <span class="arrow-head"></span>
+    </span>
+  </button>
+
+  <!-- Flecha derecha -->
+  <button class="hero__arrow hero__arrow--next" (click)="next(); resetAutoplay()">
+    <span class="arrow-icon">
+      <span class="arrow-line"></span>
+      <span class="arrow-head"></span>
+    </span>
+  </button>
+
   <div class="hero__content">
 
-    <div class="hero__tabs">
-      <button
-        *ngFor="let genre of genres"
-        class="hero__tab"
-        [class.hero__tab--active]="genre.key === activeGenre.key"
-        (click)="selectGenre(genre)">
-        {{ genre.label }}
-      </button>
-    </div>
-
-    <!-- ✅ Reemplazamos hero__body--hidden por Animate.css -->
-    <div class="hero__body animate__animated"
-         [class.animate__fadeInUp]="!isAnimating"
-         [class.animate__fadeOutDown]="isAnimating"
-         [class.animate__faster]="true">
-
-      <span class="hero__eyebrow">— {{ activeGenre.label }}</span>
-      <h1 class="hero__title">{{ activeGenre.title }}</h1>
-      <p class="hero__description">{{ activeGenre.description }}</p>
+    <div class="hero__body" [class.hero__body--out]="isAnimating">
+      <span class="hero__eyebrow">— {{ activeMovie.label }}</span>
+      <h1 class="hero__title">{{ activeMovie.title }}</h1>
+      <p class="hero__description">{{ activeMovie.description }}</p>
 
       <div class="hero__actions">
         <button class="btn btn--primary" (click)="openTrailer()">
@@ -40,18 +42,29 @@
       </div>
     </div>
 
-    <footer class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Destacado</span>
-        <span class="hero__meta-value">{{ activeGenre.title }}</span>
+    <footer class="hero__footer">
+      <div class="hero__meta">
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Destacado</span>
+          <span class="hero__meta-value">{{ activeMovie.title }}</span>
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Duración</span>
+          <span class="hero__meta-value">{{ activeMovie.duration }}</span>
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Calificación</span>
+          <span class="hero__meta-value">★ {{ activeMovie.rating }}</span>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Duración</span>
-        <span class="hero__meta-value">{{ activeGenre.duration }}</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Calificación</span>
-        <span class="hero__meta-value">★ {{ activeGenre.rating }}</span>
+
+      <div class="hero__dots">
+        <button
+          *ngFor="let movie of movies; let i = index"
+          class="hero__dot"
+          [class.hero__dot--active]="i === currentIndex"
+          (click)="goTo(i)">
+        </button>
       </div>
     </footer>
 

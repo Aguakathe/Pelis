@@ -1,8 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeStyle, SafeResourceUrl } from '@angular/platform-browser';
 
-interface GenreData {
+interface MovieData {
   key: string;
   label: string;
   title: string;
@@ -21,9 +21,9 @@ interface GenreData {
   styleUrl: './hero.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class HeroComponent {
+export class HeroComponent implements OnInit, OnDestroy {
 
-  genres: GenreData[] = [
+  movies: MovieData[] = [
     {
       key: 'accion',
       label: 'Acción',
@@ -66,32 +66,86 @@ export class HeroComponent {
     }
   ];
 
-    activeGenre: GenreData = this.genres[0];
+  currentIndex = 0;
   isAnimating = false;
   showTrailer = false;
+  isPaused = false;
   safeTrailerUrl: SafeResourceUrl = '';
+  private interval: any;
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  selectGenre(genre: GenreData): void {
-    if (this.isAnimating || genre.key === this.activeGenre.key) return;
+  get activeMovie(): MovieData {
+    return this.movies[this.currentIndex];
+  }
+
+  ngOnInit(): void {
+    this.startAutoplay();
+  }
+
+  ngOnDestroy(): void {
+    this.stopAutoplay();
+  }
+
+  startAutoplay(): void {
+    this.interval = setInterval(() => {
+      if (!this.isPaused) this.next();
+    }, 6000);
+  }
+
+  stopAutoplay(): void {
+    if (this.interval) clearInterval(this.interval);
+  }
+
+  resetAutoplay(): void {
+    this.stopAutoplay();
+    this.startAutoplay();
+  }
+
+  next(): void {
+    if (this.isAnimating) return;
     this.isAnimating = true;
     setTimeout(() => {
-      this.activeGenre = genre;
+      this.currentIndex = (this.currentIndex + 1) % this.movies.length;
       setTimeout(() => { this.isAnimating = false; }, 400);
     }, 300);
   }
 
+  prev(): void {
+    if (this.isAnimating) return;
+    this.isAnimating = true;
+    setTimeout(() => {
+      this.currentIndex = (this.currentIndex - 1 + this.movies.length) % this.movies.length;
+      setTimeout(() => { this.isAnimating = false; }, 400);
+    }, 300);
+  }
+
+  goTo(index: number): void {
+    if (this.isAnimating || index === this.currentIndex) return;
+    this.isAnimating = true;
+    this.resetAutoplay();
+    setTimeout(() => {
+      this.currentIndex = index;
+      setTimeout(() => { this.isAnimating = false; }, 400);
+    }, 300);
+  }
+
+  onHover(paused: boolean): void {
+    this.isPaused = paused;
+  }
+
   openTrailer(): void {
     this.safeTrailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.activeGenre.trailerUrl + '?autoplay=1'
+      this.activeMovie.trailerUrl + '?autoplay=1'
     );
     this.showTrailer = true;
+    this.isPaused = true;
   }
 
   closeTrailer(): void {
     this.showTrailer = false;
     this.safeTrailerUrl = '';
+    this.isPaused = false;
   }
 
   getBackgroundStyle(image: string): SafeStyle {
