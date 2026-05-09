@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap');
 @import 'animate.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
 * {
   margin: 0;
