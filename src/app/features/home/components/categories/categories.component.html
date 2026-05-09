@@ -1,0 +1,18 @@
+<section class="categories">
+  <h2 class="categories__title">Categorías populares</h2>
+
+  <div class="row g-3">
+    <div 
+      *ngFor="let cat of categories"
+      class="col-12 col-lg-3">
+      
+      <div 
+        class="categories__card animate__animated animate__fadeIn"
+        [style.backgroundImage]="'url(' + cat.image + ')'">
+        <div class="categories__card-overlay"></div>
+        <span class="categories__card-label">{{ cat.label }}</span>
+      </div>
+
+    </div>
+  </div>
+</section>
