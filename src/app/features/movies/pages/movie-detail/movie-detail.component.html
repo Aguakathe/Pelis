@@ -1,0 +1,102 @@
+<div class="detail" *ngIf="movie">
+
+  <!-- Hero  -->
+  <div class="detail__hero">
+    <div class="detail__bg" [style.backgroundImage]="'url(' + movie.image + ')'"></div>
+    <div class="detail__overlay"></div>
+
+    <div class="detail__content">
+
+      <!-- Botón volver -->
+      <button class="detail__back" (click)="goBack()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Volver
+      </button>
+
+      <!-- Info principal -->
+      <div class="detail__body animate__animated animate__fadeInUp">
+        <span class="detail__genre">— {{ movie.genre }}</span>
+        <h1 class="detail__title">{{ movie.title }}</h1>
+
+        <div class="detail__badges">
+          <span class="badge__item">{{ movie.year }}</span>
+          <span class="badge__item">★ {{ movie.rating }}</span>
+        </div>
+
+        <p class="detail__description">{{ movie.description }}</p>
+
+        <div class="detail__actions">
+          <button class="btn btn--primary" (click)="openTrailer()">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+              <polygon points="3,1 13,7 3,13"/>
+            </svg>
+            Ver tráiler
+          </button>
+          <button class="btn btn--secondary" (click)="scrollToSummary()">
+            Leer resumen
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Fin hero -->
+
+  <!-- Secciones inferiores -->
+  <div class="detail__sections container-fluid px-4 px-md-5">
+
+    <!-- Resumen narrado -->
+    <div class="row mb-5" id="summary">
+      <div class="col-12">
+        <h2 class="section__title">Resumen narrado</h2>
+      </div>
+      <div class="col-12">
+        <div class="summary__card">
+          <p>{{ movie.summary }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Valoraciones -->
+    <div class="row mb-5">
+      <div class="col-12 mb-3">
+        <h2 class="section__title">Valoraciones</h2>
+      </div>
+      <div class="col-12 col-md-4 mb-3" *ngFor="let review of movie.reviews">
+        <div class="review__card h-100">
+          <div class="review__header">
+            <div class="review__avatar" [style.backgroundColor]="review.color">
+              {{ review.initials }}
+            </div>
+            <div>
+              <p class="review__name">{{ review.name }}</p>
+              <div class="review__stars">
+                <span *ngFor="let star of [1,2,3,4,5]">
+                  {{ star <= review.rating ? '★' : '☆' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <p class="review__comment">{{ review.comment }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Popup tráiler -->
+<div class="trailer-backdrop" *ngIf="showTrailer" (click)="closeTrailer()">
+  <div class="trailer-modal" (click)="$event.stopPropagation()">
+    <button class="trailer-close" (click)="closeTrailer()">✕</button>
+    <iframe
+      [src]="safeTrailerUrl"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
