@@ -15,7 +15,7 @@ export interface Movie {
   year: number;
   rating: number;
   description: string;
-  summary: string;  // ← resumen narrado
+  summary: string;  // ← resumen 
   image: string;
   trailerUrl: string;
   genre: string;
@@ -82,7 +82,7 @@ export class MovieService {
       year: 2007,
       rating: 7.9,
       description: 'Un hombre tímido y de buen corazón, atrapado en un matrimonio infeliz con la dominante Rasputia.',
-      summary: 'Norbit es un hombre tímido que fue adoptado de niño y terminó casado con la intimidante Rasputia. Cuando su amor de infancia regresa al pueblo, Norbit deberá encontrar el valor para cambiar su vida y luchar por lo que realmente quiere.',
+      summary: 'Norbit no ha tenido una vida fácil. De pequeño fue abandonado ante la puerta de un restaurante chino, que hacía las veces de orfanato, donde le crió el Sr. Wong. Las cosas se ponen aún peor cuando se ve obligado a casarse con Rasputia, la malvada y tragona reina de la comida basura. Cuando Norbit ya no puede más y está a punto de rendirse, reaparece Kate, su gran amor de infancia',
       image: 'img/comedia.jpg',
       trailerUrl: 'https://www.youtube.com/embed/HFIdZpc2L6w',
       genre: 'Comedia',
