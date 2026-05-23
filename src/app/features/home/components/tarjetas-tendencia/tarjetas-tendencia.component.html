@@ -5,12 +5,12 @@
     <div class="tendencias__flechas">
       <button class="flecha" [class.flecha--disabled]="!canGoBack" (click)="prev()">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
-          <path d="M11.5 3L6 9l5.5 6"/>
+          <path d="M11.5 3L6 9l5.5 6" />
         </svg>
       </button>
       <button class="flecha" [class.flecha--disabled]="!canGoForward" (click)="next()">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
-          <path d="M6.5 3L12 9l-5.5 6"/>
+          <path d="M6.5 3L12 9l-5.5 6" />
         </svg>
       </button>
     </div>
@@ -28,7 +28,7 @@
           <h3 class="tarjeta__titulo">{{ movie.title }}</h3>
           <span class="tarjeta__rating">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="#f59e0b">
-              <polygon points="6.5,1 8.2,5 12.5,5.5 9.5,8.2 10.4,12.5 6.5,10.3 2.6,12.5 3.5,8.2 0.5,5.5 4.8,5"/>
+              <polygon points="6.5,1 8.2,5 12.5,5.5 9.5,8.2 10.4,12.5 6.5,10.3 2.6,12.5 3.5,8.2 0.5,5.5 4.8,5" />
             </svg>
             {{ movie.rating }}
           </span>
@@ -37,19 +37,13 @@
         <p class="tarjeta__desc">{{ movie.description }}</p>
 
         <div class="tarjeta__acciones">
-          <button class="btn btn--primary">
+          <button class="btn btn--primary" (click)="openTrailer(movie.trailerUrl)">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-              <polygon points="2,1 11,6 2,11"/>
+              <polygon points="2,1 11,6 2,11" />
             </svg>
             Ver tráiler
           </button>
-          <button class="btn btn--secondary">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-              <rect x="2" y="1" width="8" height="10" rx="1"/>
-              <line x1="4" y1="4" x2="8" y2="4"/>
-              <line x1="4" y1="6" x2="8" y2="6"/>
-              <line x1="4" y1="8" x2="6" y2="8"/>
-            </svg>
+          <button class="btn btn--secondary" (click)="goToDetail(movie.id)">
             Ver resumen
           </button>
         </div>
@@ -59,3 +53,16 @@
   </div>
 
 </section>
+
+<!-- Popup tráiler -->
+<div class="trailer-backdrop" *ngIf="showTrailer" (click)="closeTrailer()">
+  <div class="trailer-modal" (click)="$event.stopPropagation()">
+    <button class="trailer-close" (click)="closeTrailer()">✕</button>
+    <iframe
+      [src]="safeTrailerUrl"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>

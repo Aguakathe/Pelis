@@ -1,17 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { DomSanitizer, SafeStyle, SafeResourceUrl } from '@angular/platform-browser';
-
-interface MovieData {
-  key: string;
-  label: string;
-  title: string;
-  description: string;
-  duration: string;
-  rating: string;
-  image: string;
-  trailerUrl: string;
-}
+import { MovieService, Movie } from '../../../../core/services/movie.service';
 
 @Component({
   selector: 'app-hero',
@@ -23,69 +14,38 @@ interface MovieData {
 })
 export class HeroComponent implements OnInit, OnDestroy {
 
-  movies: MovieData[] = [
-    {
-      key: 'accion',
-      label: 'Acción',
-      title: 'Guerra Mundial Z',
-      description: 'La humanidad se enfrenta a una amenaza sin precedentes: enjambres masivos de infectados veloces que han puesto al mundo de rodillas.',
-      duration: '2h 18m',
-      rating: '8.4',
-      image: 'img/accion.jpg',
-      trailerUrl: 'https://www.youtube.com/embed/_pLxluB3CUo'
-    },
-    {
-      key: 'suspenso',
-      label: 'Suspenso',
-      title: 'El Último Testigo',
-      description: 'Nadie sabe lo que realmente vio esa noche. La verdad se esconde en las sombras.',
-      duration: '1h 54m',
-      rating: '9.1',
-      image: 'img/suspenso.jpg',
-      trailerUrl: 'https://www.youtube.com/embed/n3oPfh4L1-M'
-    },
-    {
-      key: 'scifi',
-      label: 'Ciencia Ficción',
-      title: 'Harry Potter 1',
-      description: 'Un niño huérfano maltratado por sus tíos, descubre a los 11 años que es mago.',
-      duration: '2h 35m',
-      rating: '8.8',
-      image: 'img/scifi.jpeg',
-      trailerUrl: 'https://www.youtube.com/embed/L7Ckib8HRko'
-    },
-    {
-      key: 'comedia',
-      label: 'Comedia',
-      title: 'Norbit',
-      description: 'Un hombre tímido y de buen corazón, atrapado en un matrimonio infeliz con la dominante Rasputia.',
-      duration: '1h 42m',
-      rating: '7.9',
-      image: 'img/comedia.jpg',
-      trailerUrl: 'https://www.youtube.com/embed/HFIdZpc2L6w'
-    }
-  ];
+  // Usa directamente Movie del servicio — sin interfaz duplicada
+  movies: Movie[] = [];
 
   currentIndex = 0;
   isAnimating = false;
   showTrailer = false;
   isPaused = false;
   safeTrailerUrl: SafeResourceUrl = '';
+
   private interval: any;
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(
+    private movieService: MovieService,
+    private sanitizer: DomSanitizer,
+    private router: Router
+  ) {}
 
-  get activeMovie(): MovieData {
+  get activeMovie(): Movie {
     return this.movies[this.currentIndex];
   }
 
   ngOnInit(): void {
+    // Una sola fuente de verdad
+    this.movies = this.movieService.getMovies();
     this.startAutoplay();
   }
 
   ngOnDestroy(): void {
     this.stopAutoplay();
   }
+
+  // ── Autoplay ──────────────────────────────────────────────
 
   startAutoplay(): void {
     this.interval = setInterval(() => {
@@ -101,6 +61,8 @@ export class HeroComponent implements OnInit, OnDestroy {
     this.stopAutoplay();
     this.startAutoplay();
   }
+
+  // ── Navegación ────────────────────────────────────────────
 
   next(): void {
     if (this.isAnimating) return;
@@ -130,9 +92,19 @@ export class HeroComponent implements OnInit, OnDestroy {
     }, 300);
   }
 
+  // ── Interacción ───────────────────────────────────────────
+
   onHover(paused: boolean): void {
     this.isPaused = paused;
   }
+
+  // Navega al detalle de la película activa
+  goToDetail(): void {
+  console.log('ID:', this.activeMovie.id);
+  this.router.navigate(['/movie', this.activeMovie.id]);
+}
+
+  // ── Tráiler ───────────────────────────────────────────────
 
   openTrailer(): void {
     this.safeTrailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -148,7 +120,13 @@ export class HeroComponent implements OnInit, OnDestroy {
     this.isPaused = false;
   }
 
+  // ── Estilos ───────────────────────────────────────────────
+
   getBackgroundStyle(image: string): SafeStyle {
     return this.sanitizer.bypassSecurityTrustStyle(`url('${image}')`);
   }
+
+  
+
 }
+

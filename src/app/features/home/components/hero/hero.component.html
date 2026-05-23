@@ -1,7 +1,4 @@
-<section
-  class="hero"
-  [style.backgroundImage]="getBackgroundStyle(activeMovie.image)"
-  (mouseenter)="onHover(true)"
+<section class="hero" [style.backgroundImage]="getBackgroundStyle(activeMovie.image)" (mouseenter)="onHover(true)"
   (mouseleave)="onHover(false)">
 
   <div class="hero__overlay"></div>
@@ -25,19 +22,24 @@
   <div class="hero__content">
 
     <div class="hero__body" [class.hero__body--out]="isAnimating">
-      <span class="hero__eyebrow">— {{ activeMovie.label }}</span>
+
+      <!-- genre viene del servicio, igual que en movie-detail -->
+      <span class="hero__eyebrow">— {{ activeMovie.genre }}</span>
+
       <h1 class="hero__title">{{ activeMovie.title }}</h1>
       <p class="hero__description">{{ activeMovie.description }}</p>
 
       <div class="hero__actions">
         <button class="btn btn--primary" (click)="openTrailer()">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-            <polygon points="3,1 13,7 3,13"/>
+            <polygon points="3,1 13,7 3,13" />
           </svg>
           Ver tráiler
         </button>
-        <button class="btn btn--secondary">
-          Leer resumen
+
+        <!-- Ahora navega al detalle en lugar de no hacer nada -->
+        <button class="btn btn--secondary" (click)="goToDetail()">
+          Ver resumen
         </button>
       </div>
     </div>
@@ -59,11 +61,8 @@
       </div>
 
       <div class="hero__dots">
-        <button
-          *ngFor="let movie of movies; let i = index"
-          class="hero__dot"
-          [class.hero__dot--active]="i === currentIndex"
-          (click)="goTo(i)">
+        <button *ngFor="let movie of movies; let i = index" class="hero__dot"
+          [class.hero__dot--active]="i === currentIndex" (click)="goTo(i)">
         </button>
       </div>
     </footer>
@@ -75,11 +74,7 @@
 <div class="trailer-backdrop" *ngIf="showTrailer" (click)="closeTrailer()">
   <div class="trailer-modal" (click)="$event.stopPropagation()">
     <button class="trailer-close" (click)="closeTrailer()">✕</button>
-    <iframe
-      [src]="safeTrailerUrl"
-      frameborder="0"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
+    <iframe [src]="safeTrailerUrl" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
     </iframe>
   </div>
 </div>
