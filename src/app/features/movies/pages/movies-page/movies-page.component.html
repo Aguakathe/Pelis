@@ -1,1 +1,52 @@
-<p>movies-page works!</p>
+<div class="container-fluid px-4 py-5">
+
+  <!-- Filtros -->
+  <app-movies-filter
+    [genres]="genres"
+    [years]="years"
+    [selectedGenre]="selectedGenre"
+    [selectedYear]="selectedYear"
+    [searchQuery]="searchQuery"
+    (onGenreChange)="onGenreChange($event)"
+    (onYearChange)="onYearChange($event)"
+    (onSearchChange)="onSearchChange($event)">
+  </app-movies-filter>
+
+  <!-- Contador -->
+  <p class="text-secondary small mb-3">
+    Mostrando {{ filteredMovies.length }} película{{ filteredMovies.length !== 1 ? 's' : '' }}
+  </p>
+
+  <!-- Grid de cards -->
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    <div class="col" *ngFor="let movie of filteredMovies">
+      <app-movies-card
+        [movie]="movie"
+        (onTrailer)="openTrailer($event)"
+        (onDetail)="goToDetail($event)">
+      </app-movies-card>
+    </div>
+  </div>
+
+  <!-- Sin resultados -->
+  <div class="text-center py-5" *ngIf="filteredMovies.length === 0">
+    <p class="text-secondary fs-5">No se encontraron películas con esos filtros.</p>
+    <button class="btn btn-danger mt-2" (click)="onGenreChange('Todos'); onYearChange('Todos'); onSearchChange('')">
+      Limpiar filtros
+    </button>
+  </div>
+
+</div>
+
+<!-- Popup tráiler -->
+<div class="trailer-backdrop" *ngIf="showTrailer" (click)="closeTrailer()">
+  <div class="trailer-modal" (click)="$event.stopPropagation()">
+    <button class="trailer-close" (click)="closeTrailer()">✕</button>
+    <iframe
+      [src]="safeTrailerUrl"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>

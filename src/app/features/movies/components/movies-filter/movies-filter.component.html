@@ -1,1 +1,60 @@
-<p>movies-filter works!</p>
+<div class="mb-4">
+
+  <!-- Buscador -->
+  <h1 class="text-white fw-bold mb-4">Películas</h1>
+
+  <div class="input-group mb-4">
+    <span class="input-group-text bg-dark border-secondary text-secondary">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+      </svg>
+    </span>
+    <input
+      type="text"
+      class="form-control bg-dark border-secondary text-white"
+      placeholder="Buscar películas..."
+      [value]="searchQuery"
+      (input)="onSearch($event)">
+  </div>
+
+  <!-- Filtro género -->
+  <div class="mb-3">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
+        <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-4 1.5A.5.5 0 0 1 5 15V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+      </svg>
+      <span class="text-white fw-semibold">Género</span>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <button
+        *ngFor="let genre of genres"
+        class="btn btn-sm rounded-pill"
+        [class.btn-danger]="selectedGenre === genre"
+        [class.btn-secondary]="selectedGenre !== genre"
+        (click)="selectGenre(genre)">
+        {{ genre }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Filtro año -->
+  <div>
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
+        <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-4 1.5A.5.5 0 0 1 5 15V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+      </svg>
+      <span class="text-white fw-semibold">Año</span>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <button
+        *ngFor="let year of years"
+        class="btn btn-sm rounded-pill"
+        [class.btn-danger]="selectedYear === year"
+        [class.btn-secondary]="selectedYear !== year"
+        (click)="selectYear(year)">
+        {{ year }}
+      </button>
+    </div>
+  </div>
+
+</div>
