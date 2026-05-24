@@ -8,7 +8,9 @@
       
       <div 
         class="categories__card animate__animated animate__fadeIn"
-        [style.backgroundImage]="'url(' + cat.image + ')'">
+        [style.backgroundImage]="'url(' + cat.image + ')'"
+        (click)="goToCategory(cat.label)"
+        style="cursor: pointer;">
         <div class="categories__card-overlay"></div>
         <span class="categories__card-label">{{ cat.label }}</span>
       </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MovieService, Movie } from '../../../../core/services/movie.service';
 import { MoviesFilterComponent } from '../../components/movies-filter/movies-filter.component';
@@ -29,6 +29,7 @@ export class MoviesPageComponent implements OnInit {
   constructor(
     private movieService: MovieService,
     private router: Router,
+    private route: ActivatedRoute,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -38,6 +39,12 @@ export class MoviesPageComponent implements OnInit {
     this.years = ['Todos', ...new Set(this.movies.map(m => m.year.toString()))].sort((a, b) => {
       if (a === 'Todos') return -1;
       return Number(b) - Number(a);
+    });
+
+    this.route.queryParams.subscribe(params => {
+      if (params['genre']) {
+        this.selectedGenre = params['genre'];
+      }
     });
   }
 

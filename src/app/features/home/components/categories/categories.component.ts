@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface Category {
-  label: string;
-  image: string;
-}
+import { Router } from '@angular/router';
+import { MovieService, Movie } from '../../../../core/services/movie.service';
 
 @Component({
   selector: 'app-categories',
@@ -13,11 +10,27 @@ interface Category {
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
-export class CategoriesComponent {
- categories: Category[] = [
-    { label: 'Acción',          image: 'img/accion.jpg'   },
-    { label: 'Suspenso',        image: 'img/suspenso.jpg' },
-    { label: 'Ciencia ficción', image: 'img/scifi.jpeg'   },
-    { label: 'Comedia',         image: 'img/comedia.jpg'  }
-  ];
+export class CategoriesComponent implements OnInit {
+
+  categories: { label: string; image: string }[] = [];
+
+  constructor(
+    private movieService: MovieService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    const movies = this.movieService.getMovies();
+    const genreMap = new Map<string, string>();
+    movies.forEach(movie => {
+      if (!genreMap.has(movie.genre)) {
+        genreMap.set(movie.genre, movie.image);
+      }
+    });
+    this.categories = Array.from(genreMap.entries()).map(([label, image]) => ({ label, image }));
+  }
+
+  goToCategory(genre: string): void {
+    this.router.navigate(['/movies'], { queryParams: { genre } });
+  }
 }
