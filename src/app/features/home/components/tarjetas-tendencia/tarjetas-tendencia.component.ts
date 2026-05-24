@@ -23,10 +23,12 @@ export class TarjetasTendenciaComponent implements OnInit {
     private movieService: MovieService,
     private router: Router,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.movies = this.movieService.getMovies();
+    this.movies = [...this.movieService.getMovies()]
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 6);
   }
 
   get visibleMovies(): Movie[] {
