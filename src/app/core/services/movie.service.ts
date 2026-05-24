@@ -55,7 +55,7 @@ export class MovieService {
       summary: 'Un detective retirado recibe una llamada anónima que lo arrastra de nuevo al caso que arruinó su carrera. Cada pista lo acerca más a una verdad que alguien poderoso quiere mantener oculta a cualquier costo.',
       image: 'img/suspenso.jpg',
       trailerUrl: 'https://www.youtube.com/embed/n3oPfh4L1-M',
-      genre: 'Suspenso',
+      genre: 'Acción',
       reviews: [
         { initials: 'AM', name: 'Ana Martínez', rating: 5, comment: 'No pude dejar de verla. El giro final me dejó sin palabras.', color: '#059669' },
         { initials: 'PG', name: 'Pedro Gómez', rating: 4, comment: 'Muy bien actuada y con una atmósfera increíble.', color: '#d97706' },
@@ -98,19 +98,19 @@ export class MovieService {
     },
     {
       id: 5,
-      title: 'Cenicienta',
+      title: 'Blancanieves',
       year: 2015,
       rating: 8.1,
       duration: '1h 45m',
-      description: 'La clásica historia de una joven bondadosa que, con la ayuda de su hada madrina, encuentra el amor verdadero.',
-      summary: 'Ella vive humillada por su madrastra y hermanastras, pero su bondad y valentía la llevarán a un destino mágico. Una reinvención deslumbrante del cuento clásico con vestuario y efectos visuales espectaculares.',
-      image: 'img/cenicienta.jpg',
-      trailerUrl: 'https://www.youtube.com/embed/wGF7_WiGUEE',
-      genre: 'Fantasía',
+      description: 'La historia de una joven princesa de corazón puro que debe huir de la malvada Reina y encuentra refugio en el bosque junto a siete enanitos.',
+      summary: 'Blancanieves enfrenta los celos y la crueldad de la Reina Malvada, cuya obsesión por ser la más hermosa la lleva a perseguirla. Con la ayuda de nuevos amigos y su valentía, descubrirá el verdadero significado de la bondad y la esperanza en esta mágica adaptación del clásico cuento.',
+      image: 'img/blancanieves.jpg',
+      trailerUrl: 'https://youtu.be/UJuNWcnKFGY',
+      genre: 'Animación',
       reviews: [
-        { initials: 'LS', name: 'Laura Sánchez', rating: 5, comment: 'Preciosa adaptación, el vestuario es simplemente mágico.', color: '#7c3aed' },
+        { initials: 'LS', name: 'Laura Sánchez', rating: 5, comment: 'Preciosa pelicula, el vestuario es simplemente mágico.', color: '#7c3aed' },
         { initials: 'MG', name: 'María García', rating: 4, comment: 'Muy fiel al cuento original. Me encantó.', color: '#059669' },
-        { initials: 'AP', name: 'Andrea P', rating: 5, comment: 'La mejor versión live action de Disney.', color: '#dc2626' }
+        { initials: 'AP', name: 'Andrea P', rating: 5, comment: 'La mejor versión animada de Disney.', color: '#dc2626' }
       ]
     },
     {
@@ -123,7 +123,7 @@ export class MovieService {
       summary: 'Miles Morales viaja a través del multiverso donde se reencuentra con Gwen Stacy y se une a la Sociedad Spider. Pero cuando choca con sus nuevos aliados sobre cómo manejar una amenaza, debe redefinir qué significa ser un héroe.',
       image: 'img/spiderman.jpg',
       trailerUrl: 'https://www.youtube.com/embed/shW9i6k8cB0',
-      genre: 'Acción',
+      genre: 'Animación',
       reviews: [
         { initials: 'DR', name: 'Diego Ríos', rating: 5, comment: 'Una obra de arte visual. Revoluciona el cine animado.', color: '#2563eb' },
         { initials: 'CM', name: 'Carlos M', rating: 5, comment: 'La mejor película de superhéroes en años. Sin discusión.', color: '#dc2626' },
