@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService, Movie } from '../../../../core/services/movie.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-movie-detail',
@@ -22,7 +23,8 @@ export class MovieDetailComponent implements OnInit {
     private route: ActivatedRoute,   // lee el :id de la URL
     private router: Router,          // para navegar si no existe la película
     private movieService: MovieService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private location: Location  // Locación
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +50,7 @@ export class MovieDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/']);
+    this.location.back();
   }
 
   scrollToSummary(): void {
