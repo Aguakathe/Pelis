@@ -1,0 +1,71 @@
+<section class="series-section container-fluid px-4 py-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="section-titulo mb-0">Series Destacadas</h2>
+    <button class="btn btn-outline-danger btn-sm" (click)="goToSeries()">
+      Ver todas →
+    </button>
+  </div>
+
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    @for (serie of series; track serie.id) {
+      <div class="col">
+        <div class="serie-card">
+          <div class="serie-card__imagen"
+            [style.backgroundImage]="'url(' + serie.image + ')'">
+            <div class="serie-card__overlay"></div>
+            <span class="serie-card__badge">{{ serie.genre }}</span>
+            <span class="serie-card__temporadas">{{ serie.seasons }} temp.</span>
+          </div>
+          <div class="serie-card__body">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <h3 class="serie-card__titulo">{{ serie.title }}</h3>
+              <span class="serie-card__rating">
+                <svg width="12" height="12" viewBox="0 0 13 13" fill="#f59e0b">
+                  <polygon points="6.5,1 8.2,5 12.5,5.5 9.5,8.2 10.4,12.5 6.5,10.3 2.6,12.5 3.5,8.2 0.5,5.5 4.8,5"/>
+                </svg>
+                {{ serie.rating }}
+              </span>
+            </div>
+            <p class="serie-card__año">{{ serie.year }} · {{ serie.seasons }} temporada{{ serie.seasons !== 1 ? 's' : '' }}</p>
+            <p class="serie-card__descripcion">{{ serie.description }}</p>
+            <div class="d-flex gap-2 mt-2">
+              <button class="btn btn-danger btn-sm d-flex align-items-center gap-1 flex-grow-1 justify-content-center"
+                (click)="openTrailer(serie.trailerUrl)">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor">
+                  <polygon points="2,1 11,6 2,11"/>
+                </svg>
+                Ver tráiler
+              </button>
+              <button class="btn btn-outline-light btn-sm d-flex align-items-center gap-1 flex-grow-1 justify-content-center"
+                (click)="goToDetail(serie.id)">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="1" width="8" height="10" rx="1"/>
+                  <line x1="4" y1="4" x2="8" y2="4"/>
+                  <line x1="4" y1="6" x2="8" y2="6"/>
+                  <line x1="4" y1="8" x2="6" y2="8"/>
+                </svg>
+                Ver detalle
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+</section>
+
+@if (showTrailer) {
+  <div class="trailer-backdrop" (click)="closeTrailer()">
+    <div class="trailer-modal" (click)="$event.stopPropagation()">
+      <button class="trailer-close" (click)="closeTrailer()">✕</button>
+      <iframe
+        [src]="safeTrailerUrl"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+}

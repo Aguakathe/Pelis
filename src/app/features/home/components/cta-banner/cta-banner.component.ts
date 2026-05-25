@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cta-banner',
@@ -9,4 +10,9 @@ import { Component } from '@angular/core';
 })
 export class CtaBannerComponent {
 
+  constructor(private router: Router) {}
+
+  goToTop(): void {
+    this.router.navigate(['/top']);
+  }
 }

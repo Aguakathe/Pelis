@@ -1,52 +1,50 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MovieService, Movie, Review } from '../../../../core/services/movie.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Location } from '@angular/common';
+import { MovieService, Serie, Review } from '../../../../core/services/movie.service';
 
 @Component({
-  selector: 'app-movie-detail',
+  selector: 'app-serie-detail',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './movie-detail.component.html',
-  styleUrl: './movie-detail.component.css',
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './serie-detail.component.html',
+  styleUrl: './serie-detail.component.css'
 })
-export class MovieDetailComponent implements OnInit {
+export class SerieDetailComponent implements OnInit {
 
-  movie: Movie | undefined;
+  private route = inject(ActivatedRoute);
+  private movieService = inject(MovieService);
+  private router = inject(Router);
+  private sanitizer = inject(DomSanitizer);
+
+  serie: Serie | undefined;
   showTrailer = false;
   safeTrailerUrl: SafeResourceUrl = '';
 
-  // Formulario de valoración
   nuevoNombre = '';
   nuevoComentario = '';
   nuevaEstrellas = 0;
   estrellaHover = 0;
   formularioEnviado = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private movieService: MovieService,
-    private sanitizer: DomSanitizer,
-    private location: Location
-  ) {}
-
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.movie = this.movieService.getMovieById(id);
-    if (!this.movie) this.router.navigate(['/']);
+    this.serie = this.movieService.getSerieById(id);
+  }
+
+  goBack(): void {
+    this.router.navigate(['/series']);
   }
 
   openTrailer(): void {
-    if (!this.movie) return;
-    this.safeTrailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.movie.trailerUrl + '?autoplay=1'
-    );
-    this.showTrailer = true;
+    if (this.serie) {
+      this.safeTrailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        this.serie.trailerUrl + '?autoplay=1'
+      );
+      this.showTrailer = true;
+    }
   }
 
   closeTrailer(): void {
@@ -54,16 +52,10 @@ export class MovieDetailComponent implements OnInit {
     this.safeTrailerUrl = '';
   }
 
-  goBack(): void {
-    this.location.back();
-  }
-
   scrollToSummary(): void {
-    const el = document.getElementById('summary');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('summary')?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  // Estrellas interactivas
   setEstrellas(valor: number): void {
     this.nuevaEstrellas = valor;
   }
@@ -72,9 +64,8 @@ export class MovieDetailComponent implements OnInit {
     this.estrellaHover = valor;
   }
 
-  // Enviar valoración
   enviarValoracion(): void {
-    if (!this.movie) return;
+    if (!this.serie) return;
     if (!this.nuevoNombre.trim() || !this.nuevoComentario.trim() || this.nuevaEstrellas === 0) return;
 
     const iniciales = this.nuevoNombre.trim().split(' ')
@@ -91,9 +82,8 @@ export class MovieDetailComponent implements OnInit {
       color: color
     };
 
-    this.movie.reviews.push(nuevaReview);
+    this.serie.reviews.push(nuevaReview);
 
-    // Limpiar formulario
     this.nuevoNombre = '';
     this.nuevoComentario = '';
     this.nuevaEstrellas = 0;
