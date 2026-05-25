@@ -78,3 +78,35 @@
   font-weight: 900;
   color: white;
 }
+@media (max-width: 768px) {
+  .ranking-card {
+    flex-direction: column;
+  }
+
+  .ranking-numero {
+    min-width: 100%;
+    height: 60px;
+    font-size: 1.8rem;
+  }
+
+  .ranking-imagen {
+    width: 100%;
+    height: 200px;
+    min-width: unset;
+  }
+
+  .ranking-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ranking-rating {
+    min-width: 100%;
+    padding: 12px 0;
+  }
+
+  .rating-numero {
+    font-size: 1.5rem;
+  }
+}

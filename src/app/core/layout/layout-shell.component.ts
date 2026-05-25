@@ -29,9 +29,10 @@ import { AppFooterComponent } from './components/app-footer/app-footer.component
     }
 
     .app-main {
-      flex: 1;
-      width: 100%;
-    }
+  flex: 1;
+  width: 100%;
+  padding-top: 80px;
+}
   `]
 })
 export class LayoutShellComponent {}
