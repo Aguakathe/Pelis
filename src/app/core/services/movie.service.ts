@@ -22,6 +22,20 @@ export interface Movie {
   reviews: Review[];
 }
 
+export interface Serie {
+  id: number;
+  title: string;
+  year: number;
+  rating: number;
+  seasons: number;
+  description: string;
+  summary: string;
+  image: string;
+  trailerUrl: string;
+  genre: string;
+  reviews: Review[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -206,5 +220,96 @@ export class MovieService {
 
   getMovieById(id: number): Movie | undefined {
     return this.movies.find(movie => movie.id === id);
+  }
+
+  private series: Serie[] = [
+    {
+      id: 1,
+      title: 'Breaking Bad',
+      year: 2008,
+      rating: 9.5,
+      seasons: 5,
+      description: 'Un profesor de química se convierte en el mayor productor de metanfetamina de Nuevo México.',
+      summary: 'Walter White, un profesor de química con cáncer terminal, decide fabricar droga para asegurar el futuro económico de su familia.',
+      image: 'img/breakingbad.jpg',
+      trailerUrl: 'https://www.youtube.com/embed/HhesaQXLuRY',
+      genre: 'Drama',
+      reviews: [
+        { initials: 'JD', name: 'Juan Díaz', rating: 5, comment: 'La mejor serie de la historia.', color: '#dc2626' },
+        { initials: 'ML', name: 'María López', rating: 5, comment: 'Adictiva desde el primer capítulo.', color: '#7c3aed' }
+      ]
+    },
+    {
+      id: 2,
+      title: 'Stranger Things',
+      year: 2016,
+      rating: 8.7,
+      seasons: 4,
+      description: 'Un grupo de niños descubre fuerzas sobrenaturales en su pequeño pueblo.',
+      summary: 'Cuando Will Byers desaparece, sus amigos descubren un portal a otra dimensión y una niña con poderes llamada Eleven.',
+      image: 'img/strangerthings.jpg',
+      trailerUrl: 'https://www.youtube.com/embed/b9EkMc79ZSU',
+      genre: 'Ciencia Ficción',
+      reviews: [
+        { initials: 'AM', name: 'Ana Martínez', rating: 5, comment: 'Nostalgia pura mezclada con terror.', color: '#059669' },
+        { initials: 'PG', name: 'Pedro Gómez', rating: 4, comment: 'Las primeras temporadas son perfectas.', color: '#d97706' }
+      ]
+    },
+    {
+      id: 3,
+      title: 'The Office',
+      year: 2005,
+      rating: 9.0,
+      seasons: 9,
+      description: 'El día a día de los empleados de una oficina de papel en Pennsylvania.',
+      summary: 'Filmada en formato documental, sigue la vida laboral de los empleados de Dunder Mifflin con Michael Scott como jefe incompetente pero entrañable.',
+      image: 'img/theoffice.jpg',
+      trailerUrl: 'https://www.youtube.com/embed/LHmn6L7Lbg8',
+      genre: 'Comedia',
+      reviews: [
+        { initials: 'SV', name: 'Sofía Vargas', rating: 5, comment: 'Me la vi tres veces y sigo riéndome.', color: '#7c3aed' },
+        { initials: 'DM', name: 'Diego Mora', rating: 5, comment: 'Steve Carell es insuperable.', color: '#2563eb' }
+      ]
+    },
+    {
+      id: 4,
+      title: 'Game of Thrones',
+      year: 2011,
+      rating: 9.2,
+      seasons: 8,
+      description: 'Nobles familias luchan por el control del Trono de Hierro en Westeros.',
+      summary: 'En un mundo de fantasía medieval, varias casas nobles compiten por el poder mientras una amenaza sobrenatural crece más allá del Muro del Norte.',
+      image: 'img/game.webp',
+      trailerUrl: 'https://www.youtube.com/embed/bjqEWgDVPe0',
+      genre: 'Acción',
+      reviews: [
+        { initials: 'RC', name: 'Roberto C', rating: 5, comment: 'Las primeras 6 temporadas son perfectas.', color: '#059669' },
+        { initials: 'GM', name: 'Gloria M', rating: 4, comment: 'Adictiva e impredecible.', color: '#7c3aed' }
+      ]
+    },
+    {
+      id: 5,
+      title: 'Friends',
+      year: 1994,
+      rating: 8.9,
+      seasons: 10,
+      description: 'Seis amigos navegan la vida adulta en Nueva York entre relaciones y humor.',
+      summary: 'Ross, Rachel, Monica, Chandler, Joey y Phoebe viven sus vidas en Manhattan. Una de las sitcoms más icónicas de todos los tiempos.',
+      image: 'img/friends.jpg',
+      trailerUrl: 'https://www.youtube.com/embed/hDNNmeeJs1Q',
+      genre: 'Comedia',
+      reviews: [
+        { initials: 'SM', name: 'Sofía M', rating: 5, comment: 'Un clásico eterno.', color: '#d97706' },
+        { initials: 'LV', name: 'Lucía V', rating: 5, comment: 'Los personajes se vuelven parte de tu vida.', color: '#059669' }
+      ]
+    }
+  ];
+
+  getSeries(): Serie[] {
+    return this.series;
+  }
+
+  getSerieById(id: number): Serie | undefined {
+    return this.series.find(serie => serie.id === id);
   }
 }

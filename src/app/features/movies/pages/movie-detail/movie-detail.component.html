@@ -42,8 +42,7 @@
  
     </div>
   </div>
-  <!-- Fin hero -->
- 
+
   <!-- Secciones inferiores -->
   <div class="detail__sections container-fluid px-4 px-md-5">
  
@@ -58,8 +57,8 @@
         </div>
       </div>
     </div>
- 
-    <!-- Valoraciones -->
+
+    <!-- Valoraciones existentes -->
     <div class="row mb-5">
       <div class="col-12 mb-3">
         <h2 class="section__title">Valoraciones</h2>
@@ -83,7 +82,70 @@
         </div>
       </div>
     </div>
- 
+
+    <!-- Formulario nueva valoración -->
+    <div class="row mb-5">
+      <div class="col-12 mb-3">
+        <h2 class="section__title">Deja tu valoración</h2>
+      </div>
+      <div class="col-12">
+        <div class="review-form">
+
+          <!-- Mensaje éxito -->
+          <div class="review-form__exito" *ngIf="formularioEnviado">
+            ✅ ¡Tu valoración fue agregada con éxito!
+          </div>
+
+          <!-- Nombre -->
+          <div class="review-form__campo">
+            <label class="review-form__label">Tu nombre</label>
+            <input
+              type="text"
+              class="review-form__input"
+              placeholder="Ej: María García"
+              [(ngModel)]="nuevoNombre">
+          </div>
+
+          <!-- Estrellas -->
+          <div class="review-form__campo">
+            <label class="review-form__label">Calificación</label>
+            <div class="review-form__estrellas">
+              @for (star of [1,2,3,4,5]; track star) {
+                <span
+                  class="estrella"
+                  [class.activa]="star <= (estrellaHover || nuevaEstrellas)"
+                  (mouseenter)="setHover(star)"
+                  (mouseleave)="setHover(0)"
+                  (click)="setEstrellas(star)">
+                  ★
+                </span>
+              }
+            </div>
+          </div>
+
+          <!-- Comentario -->
+          <div class="review-form__campo">
+            <label class="review-form__label">Comentario</label>
+            <textarea
+              class="review-form__input review-form__textarea"
+              placeholder="¿Qué te pareció la película?"
+              [(ngModel)]="nuevoComentario"
+              rows="3">
+            </textarea>
+          </div>
+
+          <!-- Botón -->
+          <button
+            class="review-form__btn"
+            (click)="enviarValoracion()"
+            [disabled]="!nuevoNombre || !nuevoComentario || nuevaEstrellas === 0">
+            Publicar valoración
+          </button>
+
+        </div>
+      </div>
+    </div>
+
   </div>
  
 </div>
@@ -100,4 +162,3 @@
     </iframe>
   </div>
 </div>
- 

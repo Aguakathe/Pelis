@@ -1,0 +1,170 @@
+@if (serie) {
+  <div class="detail">
+
+    <!-- Hero -->
+    <div class="detail__hero">
+      <div class="detail__bg" [style.backgroundImage]="'url(' + serie.image + ')'"></div>
+      <div class="detail__overlay"></div>
+
+      <div class="detail__content">
+
+        <button class="detail__back" (click)="goBack()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Volver
+        </button>
+
+        <div class="detail__body animate__animated animate__fadeInUp">
+          <span class="detail__genre">{{ serie.genre }}</span>
+          <h1 class="detail__title">{{ serie.title }}</h1>
+
+          <div class="detail__badges">
+            <span class="badge__item">{{ serie.year }}</span>
+            <span class="badge__item badge__item--rating">★ {{ serie.rating }}</span>
+            <span class="badge__item">{{ serie.seasons }} temporada{{ serie.seasons !== 1 ? 's' : '' }}</span>
+          </div>
+
+          <p class="detail__description">{{ serie.description }}</p>
+
+          <div class="detail__actions">
+            <button class="btn btn--primary" (click)="openTrailer()">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                <polygon points="3,1 13,7 3,13"/>
+              </svg>
+              Ver tráiler
+            </button>
+            <button class="btn btn--secondary" (click)="scrollToSummary()">
+              Leer resumen
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Secciones inferiores -->
+    <div class="detail__sections container-fluid px-4 px-md-5">
+
+      <!-- Resumen -->
+      <div class="row mb-5" id="summary">
+        <div class="col-12">
+          <h2 class="section__title">Resumen narrado</h2>
+        </div>
+        <div class="col-12">
+          <div class="summary__card">
+            <p>{{ serie.summary }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Valoraciones existentes -->
+      <div class="row mb-5">
+        <div class="col-12 mb-3">
+          <h2 class="section__title">Valoraciones</h2>
+        </div>
+        @for (review of serie.reviews; track review.name) {
+          <div class="col-12 col-md-4 mb-3">
+            <div class="review__card h-100">
+              <div class="review__header">
+                <div class="review__avatar" [style.backgroundColor]="review.color">
+                  {{ review.initials }}
+                </div>
+                <div>
+                  <p class="review__name">{{ review.name }}</p>
+                  <div class="review__stars">
+                    @for (star of [1,2,3,4,5]; track star) {
+                      <span>{{ star <= review.rating ? '★' : '☆' }}</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <p class="review__comment">{{ review.comment }}</p>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Formulario nueva valoración -->
+      <div class="row mb-5">
+        <div class="col-12 mb-3">
+          <h2 class="section__title">Deja tu valoración</h2>
+        </div>
+        <div class="col-12">
+          <div class="review-form">
+
+            <div class="review-form__exito" *ngIf="formularioEnviado">
+              ✅ ¡Tu valoración fue agregada con éxito!
+            </div>
+
+            <div class="review-form__campo">
+              <label class="review-form__label">Tu nombre</label>
+              <input
+                type="text"
+                class="review-form__input"
+                placeholder="Ej: María García"
+                [(ngModel)]="nuevoNombre">
+            </div>
+
+            <div class="review-form__campo">
+              <label class="review-form__label">Calificación</label>
+              <div class="review-form__estrellas">
+                @for (star of [1,2,3,4,5]; track star) {
+                  <span
+                    class="estrella"
+                    [class.activa]="star <= (estrellaHover || nuevaEstrellas)"
+                    (mouseenter)="setHover(star)"
+                    (mouseleave)="setHover(0)"
+                    (click)="setEstrellas(star)">
+                    ★
+                  </span>
+                }
+              </div>
+            </div>
+
+            <div class="review-form__campo">
+              <label class="review-form__label">Comentario</label>
+              <textarea
+                class="review-form__input review-form__textarea"
+                placeholder="¿Qué te pareció la serie?"
+                [(ngModel)]="nuevoComentario"
+                rows="3">
+              </textarea>
+            </div>
+
+            <button
+              class="review-form__btn"
+              (click)="enviarValoracion()"
+              [disabled]="!nuevoNombre || !nuevoComentario || nuevaEstrellas === 0">
+              Publicar valoración
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+}
+
+@if (!serie) {
+  <div class="container-fluid px-4 py-5 text-center">
+    <h1 class="text-white">Serie no encontrada</h1>
+    <button class="btn btn--primary mt-3" (click)="goBack()">Volver a Series</button>
+  </div>
+}
+
+@if (showTrailer) {
+  <div class="trailer-backdrop" (click)="closeTrailer()">
+    <div class="trailer-modal" (click)="$event.stopPropagation()">
+      <button class="trailer-close" (click)="closeTrailer()">✕</button>
+      <iframe
+        [src]="safeTrailerUrl"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+}

@@ -1,0 +1,116 @@
+<div class="container-fluid px-4 py-5">
+  <h1 class="mb-4 fw-bold text-uppercase">Series</h1>
+
+  <!-- Buscador -->
+<div class="mb-3">
+  <div class="input-group">
+    <span class="input-group-text bg-dark border-secondary border-end-0" style="border-right: 1px solid #555 !important;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="#888">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.868-3.834zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+      </svg>
+    </span>
+    <input
+      type="text"
+      class="form-control border-start-0 border-secondary"
+      placeholder="Buscar series..."
+      [value]="searchQuery"
+      (input)="onSearchChange($any($event.target).value)">
+  </div>
+</div>
+
+  <!-- Filtro género -->
+  <div class="mb-3">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="white">
+        <path
+          d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"
+        />
+      </svg>
+      <span class="fw-bold">Género</span>
+    </div>
+    @for (genre of genres; track genre) {
+      <button
+        class="btn btn-sm me-2 mb-2"
+        [class.btn-danger]="selectedGenre === genre"
+        [class.btn-outline-secondary]="selectedGenre !== genre"
+        (click)="onGenreChange(genre)"
+      >
+        {{ genre }}
+      </button>
+    }
+  </div>
+
+  <!-- Filtro año -->
+  <div class="mb-4">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="white">
+        <path
+          d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"
+        />
+      </svg>
+      <span class="fw-bold">Año</span>
+    </div>
+    @for (year of years; track year) {
+      <button
+        class="btn btn-sm me-2 mb-2"
+        [class.btn-danger]="selectedYear === year"
+        [class.btn-outline-secondary]="selectedYear !== year"
+        (click)="onYearChange(year)"
+      >
+        {{ year }}
+      </button>
+    }
+  </div>
+
+  <!-- Contador -->
+  <p class="text-secondary small mb-3">
+    Mostrando {{ filteredSeries.length }} serie{{
+      filteredSeries.length !== 1 ? "s" : ""
+    }}
+  </p>
+
+  <!-- Grid de series -->
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    @for (serie of filteredSeries; track serie.id) {
+      <div class="col">
+        <app-series-card
+          [serie]="serie"
+          (onTrailer)="openTrailer($event)"
+          (onDetail)="goToDetail($event)"
+        >
+        </app-series-card>
+      </div>
+    }
+  </div>
+
+  <!-- Sin resultados -->
+  @if (filteredSeries.length === 0) {
+    <div class="text-center py-5">
+      <p class="text-secondary fs-5">
+        No se encontraron series con esos filtros.
+      </p>
+      <button
+        class="btn btn-danger mt-2"
+        (click)="onGenreChange('Todos'); onSearchChange('')"
+      >
+        Limpiar filtros
+      </button>
+    </div>
+  }
+</div>
+
+<!-- Popup tráiler -->
+@if (showTrailer) {
+  <div class="trailer-backdrop" (click)="closeTrailer()">
+    <div class="trailer-modal" (click)="$event.stopPropagation()">
+      <button class="trailer-close" (click)="closeTrailer()">✕</button>
+      <iframe
+        [src]="safeTrailerUrl"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+      >
+      </iframe>
+    </div>
+  </div>
+}
